@@ -1,0 +1,10 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "comma-dangle": ["error", "never"],
+    "no-console": ["error", {"allow": ["log", "error"]}]
+  },
+  "globals": {
+    "fetch": true
+  },
+}

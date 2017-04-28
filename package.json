@@ -20,13 +20,7 @@
   },
   "homepage": "https://github.com/ThomasGoehringer/baby-app-server#readme",
   "dependencies": {
-    "cheerio": "^0.22.0",
-    "iconv-lite": "^0.4.15",
-    "moment": "^2.18.1",
     "mongoose": "^4.9.1",
-    "moviedb": "^0.2.7",
-    "node-fetch": "^1.6.3",
-    "request": "^2.81.0",
     "restify": "^4.3.0"
   },
   "devDependencies": {

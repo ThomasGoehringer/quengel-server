@@ -15,10 +15,12 @@ mongoose.connect(config.mongoDB);
 
 // Create entry
 server.post('/quengel/entry', (req, res) => {
+  const entry = JSON.parse(req.body);
+
   new Entry({
-    text: req.body.text,
-    badges: req.body.badges,
-    milestone: req.body.milestone
+    text: entry.text,
+    badges: entry.badges,
+    milestone: entry.milestone
   }).save((err) => {
     if (err) {
       console.log(err);

@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const entrySchema = new Schema({
   text: [{
     value: String,
+    emotion: String,
     createdAt: Date
   }],
   badges: [{

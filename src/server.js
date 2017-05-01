@@ -1,7 +1,7 @@
 import restify from 'restify';
 import mongoose from 'mongoose';
 import moment from 'moment';
-import merge from 'lodash.merge';
+import ld from 'lodash';
 import config from './config';
 import Entry from './models/entry';
 
@@ -15,6 +15,12 @@ server.use(restify.bodyParser({ mapParams: false }));
 
 mongoose.connect(config.mongoDB);
 
+function customizer(objValue, srcValue) {
+  if (ld.isArray(objValue)) {
+    return objValue.concat(srcValue);
+  }
+}
+
 // Create entry
 server.post('/quengel/entry', (req, res) => {
   const entry = JSON.parse(req.body);
@@ -26,13 +32,10 @@ server.post('/quengel/entry', (req, res) => {
     .then((latestEntry) => {
       if (moment(latestEntry.createdAt).format('DD MMM YY') === moment().format('DD MMM YY')) {
         // Merge since there is already an entry for today
-        console.log('MERGE', merge(latestEntry, entry));
-        console.log('MERGEENTRYDB', latestEntry);
-        console.log('MERGEENTRYPOST', entry);
-        Entry.update({ createdAt: latestEntry.createdAt }, merge(latestEntry, entry), () => {
-          console.log('UPDATED');
-          res.send();
-        });
+        Entry.update(
+          { createdAt: latestEntry.createdAt },
+          ld.mergeWith(latestEntry, entry, customizer), () => res.send()
+        );
       } else {
         // Create new Entry since there is no entry for today
         new Entry({
@@ -60,7 +63,6 @@ server.get('/quengel/entries', (req, res) => {
       res.send(entries);
     });
 });
-
 
 server.listen(8080, () => {
   console.log('%s listening at %s', server.name, server.url);

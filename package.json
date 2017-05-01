@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/ThomasGoehringer/baby-app-server#readme",
   "dependencies": {
+    "lodash.merge": "^4.6.0",
+    "moment": "^2.18.1",
     "mongoose": "^4.9.1",
     "restify": "^4.3.0"
   },

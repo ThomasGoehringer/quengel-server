@@ -11,6 +11,7 @@ const entrySchema = new Schema({
   badges: [{
     badgeType: String,
     value: String,
+    unit: String,
     createdAt: Date
   }],
   milestone: Boolean,
@@ -54,21 +55,25 @@ Entry
           {
             badgeType: 'diapers',
             value: '5',
+            unit: null,
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
             badgeType: 'hydration',
-            value: '1250ml',
+            value: '1250',
+            unit: 'ml',
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
             badgeType: 'meals',
             value: '3',
+            unit: null,
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
             badgeType: 'weight',
-            value: '2500g',
+            value: '2500',
+            unit: 'g',
             createdAt: '2017-04-28T16:33:42.732Z'
           }
         ],
@@ -87,26 +92,31 @@ Entry
           {
             badgeType: 'diapers',
             value: '5',
+            unit: null,
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
             badgeType: 'hydration',
-            value: '1050ml',
+            value: '1050',
+            unit: 'ml',
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
             badgeType: 'headCircumference',
-            value: '72cm',
+            value: '72',
+            unit: 'cm',
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
             badgeType: 'weight',
-            value: '2700g',
+            value: '2700',
+            unit: 'g',
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
             badgeType: 'nursing',
-            value: '4:38 min',
+            value: '4:38',
+            unit: 'min',
             createdAt: '2017-04-28T16:33:42.732Z'
           }
         ],
@@ -133,21 +143,25 @@ Entry
           {
             badgeType: 'diapers',
             value: '5',
+            unit: null,
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
             badgeType: 'hydration',
-            value: '1450ml',
+            value: '1450',
+            unit: 'ml',
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
             badgeType: 'meals',
             value: '3',
+            unit: null,
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
             badgeType: 'height',
-            value: '94cm',
+            value: '94',
+            unit: 'cm',
             createdAt: '2017-04-28T16:33:42.732Z'
           }
         ],

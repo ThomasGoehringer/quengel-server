@@ -43,11 +43,11 @@ Entry
           },
           {
             value: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            emotion: 'neutral',
+            emotion: 'emoticon-neutral',
             createdAt: '2017-04-28T16:34:42.732Z'
           },
           {
-            emotion: 'happy',
+            emotion: 'emoticon-happy',
             createdAt: '2017-04-28T16:35:42.732Z'
           }
         ],

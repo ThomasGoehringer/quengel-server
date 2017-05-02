@@ -61,7 +61,7 @@ Entry
           {
             badgeType: 'hydration',
             value: '1250',
-            unit: 'ml',
+            unit: null,
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
@@ -98,7 +98,7 @@ Entry
           {
             badgeType: 'hydration',
             value: '1050',
-            unit: 'ml',
+            unit: null,
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {
@@ -149,7 +149,7 @@ Entry
           {
             badgeType: 'hydration',
             value: '1450',
-            unit: 'ml',
+            unit: null,
             createdAt: '2017-04-28T16:33:42.732Z'
           },
           {

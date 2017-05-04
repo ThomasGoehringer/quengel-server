@@ -2,18 +2,52 @@ import restify from 'restify';
 import mongoose from 'mongoose';
 import moment from 'moment';
 import ld from 'lodash';
+import jwt from 'jwt-simple';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import passport from 'passport-restify';
 import config from './config';
 import Entry from './models/entry';
 
 
 // Use native promises
 mongoose.Promise = global.Promise;
+mongoose.connect(config.mongoDB);
 
 const server = restify.createServer();
-
 server.use(restify.bodyParser({ mapParams: false }));
+server.use(passport.initialize());
 
-mongoose.connect(config.mongoDB);
+const requireAuth = passport.authenticate('jwt', { session: false });
+
+const opts = {
+  jwtFromRequest: ExtractJwt.fromAuthHeader(),
+  secretOrKey: config.jwtSecret
+};
+
+passport.use(new JwtStrategy(opts, (payload, done) => {
+  const user = {
+    id: 1,
+    name: 'John',
+    email: 'john@mail.com',
+    password: 'john123'
+  };
+
+  done(null, user);
+
+  // TODO search if user exists in db
+  // const userId = payload.email;
+  // User.findById(userId, (err, user) => {
+  //   if (err) {
+  //     return done(err, false);
+  //   }
+  //   if (user) {
+  //     done(null, user);
+  //   } else {
+  //     done(null, false);
+  //   }
+  // });
+}));
+
 
 function customizer(objValue, srcValue) {
   if (ld.isArray(objValue)) {
@@ -56,12 +90,30 @@ server.post('/quengel/entry', (req, res) => {
 });
 
 // Get all entries
-server.get('/quengel/entries', (req, res) => {
+server.get('/quengel/entries', requireAuth, (req, res) => {
   Entry
     .find()
     .then((entries) => {
       res.send(entries);
     });
+});
+
+server.post('/user/register', (req, res) => {
+  if (req.body.email && req.body.password) {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    // TODO save user to db and issue token
+    // const user = users.find((u) => {
+    //   return u.email === email && u.password === password;
+    // });
+
+    // Issues JWT
+    const token = jwt.encode(email, config.jwtSecret);
+    res.json({ token });
+  } else {
+    res.sendStatus(401);
+  }
 });
 
 server.listen(8080, () => {

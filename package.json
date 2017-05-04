@@ -20,9 +20,12 @@
   },
   "homepage": "https://github.com/ThomasGoehringer/baby-app-server#readme",
   "dependencies": {
+    "jwt-simple": "^0.5.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "mongoose": "^4.9.1",
+    "passport-jwt": "^2.2.1",
+    "passport-restify": "^1.0.1",
     "restify": "^4.3.0"
   },
   "devDependencies": {

@@ -90,7 +90,7 @@ server.post('/quengel/entry', (req, res) => {
 });
 
 // Get all entries
-server.get('/quengel/entries', requireAuth, (req, res) => {
+server.get('/quengel/entries', (req, res) => {
   Entry
     .find()
     .then((entries) => {
@@ -112,7 +112,7 @@ server.post('/user/register', (req, res) => {
 
     // Issues JWT
     const token = jwt.encode(email, config.jwtSecret);
-    res.json({ token });
+    res.send({ token });
   } else {
     res.status(401);
     res.send();

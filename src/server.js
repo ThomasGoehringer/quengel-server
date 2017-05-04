@@ -99,9 +99,11 @@ server.get('/quengel/entries', requireAuth, (req, res) => {
 });
 
 server.post('/user/register', (req, res) => {
-  if (req.body.email && req.body.password) {
-    const email = req.body.email;
-    const password = req.body.password;
+  const user = JSON.parse(req.body);
+
+  if (user.email && user.password) {
+    const email = user.email;
+    const password = user.password;
 
     // TODO save user to db and issue token
     // const user = users.find((u) => {
@@ -112,7 +114,8 @@ server.post('/user/register', (req, res) => {
     const token = jwt.encode(email, config.jwtSecret);
     res.json({ token });
   } else {
-    res.sendStatus(401);
+    res.status(401);
+    res.send();
   }
 });
 

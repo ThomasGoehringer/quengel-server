@@ -56,7 +56,7 @@ function customizer(objValue, srcValue) {
 }
 
 // Create entry
-server.post('/quengel/entry', (req, res) => {
+server.post('/quengel/entry', requireAuth, (req, res) => {
   const entry = JSON.parse(req.body);
 
   // Merge if an entry with the same createdAt (DD MM YY) is already in the db
@@ -90,7 +90,7 @@ server.post('/quengel/entry', (req, res) => {
 });
 
 // Get all entries
-server.get('/quengel/entries', (req, res) => {
+server.get('/quengel/entries', requireAuth, (req, res) => {
   Entry
     .find()
     .then((entries) => {

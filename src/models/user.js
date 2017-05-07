@@ -4,9 +4,7 @@ import EntrySchema from '../schemas/entry';
 
 
 const SALT_WORK_FACTOR = 10;
-
 const Schema = mongoose.Schema;
-
 const userSchema = new Schema({
   email: String,
   password: String,
@@ -38,8 +36,6 @@ userSchema.pre('save', function (next) {
       next();
     })
   });
-
-  next();
 });
 
 userSchema.methods.comparePassword = (candidatePassword, cb) => {
@@ -49,6 +45,6 @@ userSchema.methods.comparePassword = (candidatePassword, cb) => {
   });
 };
 
-const User = mongoose.model('User', userSchema);
 
+const User = mongoose.model('User', userSchema);
 module.exports = User;

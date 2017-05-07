@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 
 const Schema = mongoose.Schema;
-
 const entrySchema = new Schema({
   text: [{
     value: String,
@@ -18,5 +18,6 @@ const entrySchema = new Schema({
   createdAt: Date,
   updatedAt: Date
 });
+
 
 module.exports = entrySchema;

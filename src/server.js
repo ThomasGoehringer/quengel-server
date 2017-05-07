@@ -6,7 +6,6 @@ import jwt from 'jwt-simple';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport-restify';
 import config from './config';
-import Entry from './models/entry';
 import User from './models/user';
 
 

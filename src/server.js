@@ -27,19 +27,17 @@ const opts = {
 
 passport.use(new JwtStrategy(opts, (payload, done) => {
   // TODO search if user exists in db
-  const userId = payload.email;
+  const userId = payload;
   User
     .findOne({ email: userId })
-    .then((err, user) => {
-      if (err) {
-        return done(err, false);
-      }
+    .then((user) => {
       if (user) {
         done(null, user);
       } else {
         done(null, false);
       }
-    });
+    })
+    .catch(err => done(err, false));
 }));
 
 
@@ -99,8 +97,8 @@ server.get('/quengel/entries', requireAuth, (req, res) => {
     });
 });
 
-server.post('/user/register', (req, res) => {
-  const newUser = req.body;
+server.post('/quengel/user/register', (req, res) => {
+  const newUser = JSON.parse(req.body);
 
   if (newUser.email && newUser.password) {
     const email = newUser.email;

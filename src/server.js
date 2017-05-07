@@ -7,6 +7,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport-restify';
 import config from './config';
 import Entry from './models/entry';
+import User from './models/user';
 
 
 // Use native promises
@@ -25,27 +26,20 @@ const opts = {
 };
 
 passport.use(new JwtStrategy(opts, (payload, done) => {
-  const user = {
-    id: 1,
-    name: 'John',
-    email: 'john@mail.com',
-    password: 'john123'
-  };
-
-  done(null, user);
-
   // TODO search if user exists in db
-  // const userId = payload.email;
-  // User.findById(userId, (err, user) => {
-  //   if (err) {
-  //     return done(err, false);
-  //   }
-  //   if (user) {
-  //     done(null, user);
-  //   } else {
-  //     done(null, false);
-  //   }
-  // });
+  const userId = payload.email;
+  User
+    .findOne({ email: userId })
+    .then((err, user) => {
+      if (err) {
+        return done(err, false);
+      }
+      if (user) {
+        done(null, user);
+      } else {
+        done(null, false);
+      }
+    });
 }));
 
 
@@ -76,13 +70,20 @@ server.post('/quengel/entry', requireAuth, (req, res) => {
           text: entry.text,
           badges: entry.badges,
           milestone: entry.milestone
-        }).save((err) => {
+        }).save((err, entry) => {
           if (err) {
             console.log(err);
             res.status(500);
           } else {
             res.status(200);
           }
+
+          // Find user and add new entry ObjectId to user's entries
+          User.findOneAndUpdate(
+            { email: req.user.email },
+            { $push: { entries: entry._id } }
+          );
+
           res.send();
         });
       }
@@ -99,16 +100,23 @@ server.get('/quengel/entries', requireAuth, (req, res) => {
 });
 
 server.post('/user/register', (req, res) => {
-  const user = JSON.parse(req.body);
+  const newUser = req.body;
 
-  if (user.email && user.password) {
-    const email = user.email;
-    const password = user.password;
+  if (newUser.email && newUser.password) {
+    const email = newUser.email;
+    const password = newUser.password;
 
     // TODO save user to db and issue token
-    // const user = users.find((u) => {
-    //   return u.email === email && u.password === password;
-    // });
+    User
+      .findOne({ email })
+      .then((err, user) => {
+        if (!user) {
+          new User({
+            email,
+            password
+          }).save();
+        }
+      });
 
     // Issues JWT
     const token = jwt.encode(email, config.jwtSecret);

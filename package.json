@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ThomasGoehringer/baby-app-server#readme",
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "jwt-simple": "^0.5.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",

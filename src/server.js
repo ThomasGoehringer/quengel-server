@@ -58,7 +58,8 @@ server.post('/quengel/entry', requireAuth, (req, res) => {
       const newEntry = {
         text: entry.text,
         badges: entry.badges,
-        milestone: entry.milestone
+        milestone: entry.milestone,
+        createdAt: new Date()
       };
 
       if (latestEntry && moment(latestEntry.createdAt).format('DD MMM YY') === moment().format('DD MMM YY')) {

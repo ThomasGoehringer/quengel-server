@@ -52,48 +52,52 @@ server.post('/quengel/entry', requireAuth, (req, res) => {
   const entry = JSON.parse(req.body);
 
   // Merge if an entry with the same createdAt (DD MM YY) is already in the db
-  Entry
-    .findOne()
-    .sort({ createdAt: -1 })
-    .then((latestEntry) => {
-      if (moment(latestEntry.createdAt).format('DD MMM YY') === moment().format('DD MMM YY')) {
-        // Merge since there is already an entry for today
-        Entry.update(
-          { createdAt: latestEntry.createdAt },
-          ld.mergeWith(latestEntry, entry, customizer), () => res.send()
-        );
-      } else {
-        // Create new Entry since there is no entry for today
-        new Entry({
-          text: entry.text,
-          badges: entry.badges,
-          milestone: entry.milestone
-        }).save((err, entry) => {
-          if (err) {
-            console.log(err);
-            res.status(500);
-          } else {
+  User
+    .findOne({ email: req.user.email })
+    .then((user) => {
+      const latestEntry = user.entries[user.entries.length - 1];
+      const newEntry = {
+        text: entry.text,
+        badges: entry.badges,
+        milestone: entry.milestone
+      };
+
+      if (latestEntry && moment(latestEntry.createdAt).format('DD MMM YY') === moment().format('DD MMM YY')) {
+        const mergedEntry = ld.mergeWith(latestEntry, entry, customizer);
+        console.log(mergedEntry);
+
+        User
+          .update(
+            { email: req.user.email, 'entries.createdAt': latestEntry.createdAt },
+            { $set: { 'entries.$': mergedEntry } }
+          )
+          .then(() => {
             res.status(200);
-          }
-
-          // Find user and add new entry ObjectId to user's entries
-          User.findOneAndUpdate(
+          })
+          .catch(err => console.error(err));
+      } else {
+        User
+          .update(
             { email: req.user.email },
-            { $push: { entries: entry._id } }
-          );
-
-          res.send();
-        });
+            { $push: { entries: newEntry } }
+          )
+          .then(() => {
+            res.status(200);
+          })
+          .catch(err => console.error(err));
       }
-    });
+
+      res.send();
+    })
+    .catch(err => console.log(err));
 });
 
 // Get all entries
 server.get('/quengel/entries', requireAuth, (req, res) => {
-  Entry
-    .find()
-    .then((entries) => {
-      res.send(entries);
+  User
+    .findOne({ email: req.user.email })
+    .then((user) => {
+      res.send(user.entries);
     });
 });
 

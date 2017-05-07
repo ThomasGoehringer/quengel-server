@@ -1,5 +1,8 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import EntrySchema from '../schemas/entry';
+
+
 const SALT_WORK_FACTOR = 10;
 
 const Schema = mongoose.Schema;
@@ -9,10 +12,7 @@ const userSchema = new Schema({
   password: String,
   name: String,
   birthday: Date,
-  entries: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Entry'
-  }],
+  entries: [EntrySchema],
   createdAt: Date,
   updatedAt: Date
 });

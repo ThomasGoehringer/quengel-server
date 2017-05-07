@@ -25,7 +25,7 @@ const opts = {
 };
 
 passport.use(new JwtStrategy(opts, (payload, done) => {
-  // TODO search if user exists in db
+  // Search if user exists in db
   const userId = payload;
   User
     .findOne({ email: userId })
@@ -63,7 +63,7 @@ server.post('/quengel/entry', requireAuth, (req, res) => {
 
       if (latestEntry && moment(latestEntry.createdAt).format('DD MMM YY') === moment().format('DD MMM YY')) {
         const mergedEntry = ld.mergeWith(latestEntry, entry, customizer);
-        console.log(mergedEntry);
+        mergedEntry.createdAt = latestEntry.createdAt;
 
         User
           .update(
@@ -107,7 +107,8 @@ server.post('/quengel/user/register', (req, res) => {
     const email = newUser.email;
     const password = newUser.password;
 
-    // TODO save user to db and issue token
+    // Save user to db
+    // TODO Prevent creation of multiple users
     User
       .findOne({ email })
       .then((err, user) => {

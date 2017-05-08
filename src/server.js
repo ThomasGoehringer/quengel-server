@@ -125,8 +125,34 @@ server.post('/quengel/user/register', (req, res) => {
     const token = jwt.encode(email, config.jwtSecret);
     res.send({ token });
   } else {
-    res.status(401);
-    res.send();
+    res.send(401);
+  }
+});
+
+server.post('/quengel/user/login', (req, res) => {
+  const reqUser = JSON.parse(req.body);
+
+  if (reqUser.email && reqUser.password) {
+    // Find user in db
+    User
+      .findOne({ email: reqUser.email })
+      .then((user) => {
+        if (user) {
+          user.comparePassword(reqUser.password).then((isMatch) => {
+            if (isMatch) {
+              // Issues JWT
+              const token = jwt.encode(reqUser.email, config.jwtSecret);
+              res.send({ token });
+            } else {
+              res.send(401);
+            }
+          });
+        } else {
+          res.send(401);
+        }
+      });
+  } else {
+    res.send(401);
   }
 });
 

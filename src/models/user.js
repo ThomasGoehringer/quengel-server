@@ -38,10 +38,12 @@ userSchema.pre('save', function (next) {
   });
 });
 
-userSchema.methods.comparePassword = (candidatePassword, cb) => {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-    if (err) return cb(err);
-    cb(null, isMatch);
+userSchema.methods.comparePassword = function (candidatePassword) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+      if (err) reject(err);
+      resolve(isMatch);
+    });
   });
 };
 

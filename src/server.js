@@ -101,6 +101,10 @@ server.get('/quengel/entries', requireAuth, (req, res) => {
     });
 });
 
+server.post('/quengel/user/profile', requireAuth, (req, res) => {
+
+});
+
 server.post('/quengel/user/register', (req, res) => {
   const newUser = JSON.parse(req.body);
 

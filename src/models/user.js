@@ -9,7 +9,8 @@ const userSchema = new Schema({
   email: String,
   password: String,
   name: String,
-  birthday: Date,
+  dateOfBirth: String,
+  gender: String,
   entries: [EntrySchema],
   createdAt: Date,
   updatedAt: Date
@@ -34,7 +35,7 @@ userSchema.pre('save', function (next) {
 
       user.password = hash;
       next();
-    })
+    });
   });
 });
 

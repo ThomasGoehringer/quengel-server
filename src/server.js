@@ -102,10 +102,11 @@ server.get('/quengel/entries', requireAuth, (req, res) => {
 });
 
 server.post('/quengel/user/profile', requireAuth, (req, res) => {
+  const profile = JSON.parse(req.body);
   User
     .update(
       { email: req.user.email },
-      { $set: { name: req.user.name, dateOfBirth: req.user.dateOfBirth, gender: req.user.gender } }
+      { $set: { name: profile.name, dateOfBirth: profile.dateOfBirth, gender: profile.gender } }
     )
     .then(() => res.send());
 });

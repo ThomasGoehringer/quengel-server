@@ -133,21 +133,22 @@ server.post('/quengel/user/register', (req, res) => {
     const password = newUser.password;
 
     // Save user to db
-    // TODO Prevent creation of multiple users
     User
       .findOne({ email })
-      .then((err, user) => {
+      .then((user) => {
         if (!user) {
           new User({
             email,
             password
           }).save();
+
+          // Issues JWT
+          const token = jwt.encode(email, config.jwtSecret);
+          res.send({ token });
+        } else {
+          res.send(404, 'User does not exist');
         }
       });
-
-    // Issues JWT
-    const token = jwt.encode(email, config.jwtSecret);
-    res.send({ token });
   } else {
     res.send(401);
   }

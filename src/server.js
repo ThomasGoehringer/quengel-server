@@ -102,7 +102,12 @@ server.get('/quengel/entries', requireAuth, (req, res) => {
 });
 
 server.post('/quengel/user/profile', requireAuth, (req, res) => {
-
+  User
+    .update(
+      { email: req.user.email },
+      { $set: { name: req.user.name, dateOfBirth: req.user.dateOfBirth, gender: req.user.gender } }
+    )
+    .then(() => res.send());
 });
 
 server.post('/quengel/user/register', (req, res) => {

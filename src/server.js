@@ -111,6 +111,20 @@ server.post('/quengel/user/profile', requireAuth, (req, res) => {
     .then(() => res.send());
 });
 
+server.get('/quengel/user/profile', requireAuth, (req, res) => {
+  User
+    .findOne({ email: req.user.email })
+    .then((user) => {
+      const profile = {
+        name: user.name,
+        gender: user.gender,
+        dateOfBirth: user.dateOfBirth
+      };
+
+      res.send(profile);
+    });
+});
+
 server.post('/quengel/user/register', (req, res) => {
   const newUser = JSON.parse(req.body);
 

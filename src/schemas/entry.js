@@ -14,6 +14,7 @@ const entrySchema = new Schema({
     unit: String,
     createdAt: Date
   }],
+  imagePath: String,
   milestone: Boolean,
   createdAt: Date,
   updatedAt: Date

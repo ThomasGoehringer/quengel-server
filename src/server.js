@@ -101,6 +101,28 @@ server.get('/quengel/entries', requireAuth, (req, res) => {
     });
 });
 
+// Create milestone
+server.post('/quengel/milestone', requireAuth, (req, res) => {
+  const entry = JSON.parse(req.body);
+
+  const newEntry = {
+    text: entry.text,
+    imagePath: entry.imagePath,
+    milestone: entry.milestone,
+    createdAt: new Date()
+  };
+
+  User
+    .update(
+      { email: req.user.email },
+      { $push: { entries: newEntry } }
+    )
+    .then(() => {
+      res.status(200);
+    })
+    .catch(err => console.error(err));
+});
+
 server.post('/quengel/user/profile', requireAuth, (req, res) => {
   const profile = JSON.parse(req.body);
   User

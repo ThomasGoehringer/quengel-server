@@ -109,6 +109,7 @@ server.post('/quengel/milestone', requireAuth, (req, res) => {
     text: entry.text,
     imagePath: entry.imagePath,
     milestone: entry.milestone,
+    milestoneType: entry.milestoneType,
     createdAt: new Date()
   };
 

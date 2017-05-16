@@ -119,7 +119,7 @@ server.post('/quengel/milestone', requireAuth, (req, res) => {
       { $push: { entries: newEntry } }
     )
     .then(() => {
-      res.status(200);
+      res.send();
     })
     .catch(err => console.error(err));
 });

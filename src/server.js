@@ -111,7 +111,7 @@ server.post('/quengel/milestone', requireAuth, (req, res) => {
     milestone: entry.milestone,
     milestoneType: entry.milestoneType,
     customType: entry.customType,
-    createdAt: new Date()
+    createdAt: entry.date
   };
 
   User

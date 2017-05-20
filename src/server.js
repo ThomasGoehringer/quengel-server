@@ -54,7 +54,9 @@ server.post('/quengel/entry', requireAuth, (req, res) => {
   User
     .findOne({ email: req.user.email })
     .then((user) => {
-      const latestEntry = user.entries[user.entries.length - 1];
+      // Filter out milestone entries
+      const filteredEntries = user.entries.filter(e => !e.milestone);
+      const latestEntry = filteredEntries[filteredEntries.length - 1];
       const newEntry = {
         text: entry.text,
         badges: entry.badges,

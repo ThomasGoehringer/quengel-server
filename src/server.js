@@ -127,6 +127,22 @@ server.post('/quengel/milestone', requireAuth, (req, res) => {
     .catch(err => console.error(err));
 });
 
+// Get chart data
+server.get('/quengel/charts', requireAuth, (req, res) => {
+  User
+    .findOne({ email: req.user.email })
+    .then((user) => {
+      const entries = user.entries.filter(e => !e.milestone);
+      const chartData = entries.reduce((acc, entry) => {
+        acc.push(...entry.badges);
+        return acc;
+      }, []);
+
+      res.send(chartData);
+    })
+    .catch(err => console.error(err));
+});
+
 server.post('/quengel/user/profile', requireAuth, (req, res) => {
   const profile = JSON.parse(req.body);
   User

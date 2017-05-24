@@ -11,6 +11,7 @@ const userSchema = new Schema({
   name: String,
   dateOfBirth: String,
   gender: String,
+  avatar: String,
   entries: [EntrySchema],
   createdAt: Date,
   updatedAt: Date

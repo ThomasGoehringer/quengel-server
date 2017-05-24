@@ -161,7 +161,8 @@ server.get('/quengel/user/profile', requireAuth, (req, res) => {
       const profile = {
         name: user.name,
         gender: user.gender,
-        dateOfBirth: user.dateOfBirth
+        dateOfBirth: user.dateOfBirth,
+        avatar: user.avatar
       };
 
       res.send(profile);

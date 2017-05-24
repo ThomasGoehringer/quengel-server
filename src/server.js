@@ -14,6 +14,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(config.mongoDB);
 
 const server = restify.createServer();
+server.use(restify.gzipResponse());
 server.use(restify.bodyParser({ mapParams: false }));
 server.use(passport.initialize());
 

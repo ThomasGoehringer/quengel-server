@@ -149,7 +149,7 @@ server.post('/quengel/user/profile', requireAuth, (req, res) => {
   User
     .update(
       { email: req.user.email },
-      { $set: { name: profile.name, dateOfBirth: profile.dateOfBirth, gender: profile.gender } }
+      { $set: { name: profile.name, dateOfBirth: profile.dateOfBirth, gender: profile.gender, avatar: profile.avatar } }
     )
     .then(() => res.send());
 });

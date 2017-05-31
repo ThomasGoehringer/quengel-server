@@ -183,7 +183,7 @@ server.post('quengel/comment', requireAuth, (req, res) => {
       const newComment = {
         userId: user.id,
         text: request.text,
-        createdAt: request.createdAt
+        createdAt: moment()
       };
 
       Question

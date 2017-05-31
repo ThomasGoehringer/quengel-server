@@ -244,7 +244,7 @@ server.post('/quengel/user/register', (req, res) => {
           const token = jwt.encode(email, config.jwtSecret);
           res.send({ token });
         } else {
-          res.send(404, 'User does not exist');
+          res.send(400, 'User does already exist');
         }
       });
   } else {

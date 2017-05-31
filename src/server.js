@@ -7,6 +7,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport-restify';
 import config from './config';
 import User from './models/user';
+import Question from './models/question';
 
 
 // Use native promises
@@ -142,6 +143,47 @@ server.get('/quengel/charts', requireAuth, (req, res) => {
       res.send(chartData);
     })
     .catch(err => console.error(err));
+});
+
+server.post('quengel/question', requireAuth, (req, res) => {
+  const request = JSON.parse(req.body);
+  console.log(request);
+  User
+    .findOne({ email: req.user.email })
+    .then((user) => {
+      new Question({
+        userId: user.id,
+        category: request.category,
+        text: request.text
+      }).save();
+
+      res.send();
+    })
+    .catch(err => console.error(err));
+});
+
+server.post('quengel/comment', requireAuth, (req, res) => {
+  const request = JSON.parse(req.body);
+
+  User
+    .findOne({ email: req.user.email })
+    .then((user) => {
+      const newComment = {
+        userId: user.id,
+        text: request.text,
+        createdAt: request.createdAt
+      };
+
+      Question
+        .update(
+          { _id: request.id },
+          { $push: { comments: newComment } }
+        )
+        .then(() => {
+          res.send();
+        })
+        .catch(err => console.error(err));
+    });
 });
 
 server.post('/quengel/user/profile', requireAuth, (req, res) => {

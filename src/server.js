@@ -164,9 +164,9 @@ server.post('quengel/question', requireAuth, (req, res) => {
 });
 
 // Get all questions
-server.get('quengel/questions', requireAuth, (req, res) => {
+server.get('quengel/questions/:category', requireAuth, (req, res) => {
   Question
-    .find()
+    .find({ category: req.params.category })
     .then((questions) => {
       res.send(questions);
     })
@@ -188,7 +188,7 @@ server.post('quengel/comment', requireAuth, (req, res) => {
 
       Question
         .update(
-          { _id: request.id },
+          { _id: request.questionId },
           { $push: { comments: newComment } }
         )
         .then(() => {

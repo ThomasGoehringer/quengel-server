@@ -145,9 +145,10 @@ server.get('/quengel/charts', requireAuth, (req, res) => {
     .catch(err => console.error(err));
 });
 
+// Create question
 server.post('quengel/question', requireAuth, (req, res) => {
   const request = JSON.parse(req.body);
-  console.log(request);
+
   User
     .findOne({ email: req.user.email })
     .then((user) => {
@@ -162,6 +163,17 @@ server.post('quengel/question', requireAuth, (req, res) => {
     .catch(err => console.error(err));
 });
 
+// Get all questions
+server.get('quengel/questions', requireAuth, (req, res) => {
+  Question
+    .find()
+    .then((questions) => {
+      res.send(questions);
+    })
+    .catch(err => console.error(err));
+});
+
+// Create comment
 server.post('quengel/comment', requireAuth, (req, res) => {
   const request = JSON.parse(req.body);
 

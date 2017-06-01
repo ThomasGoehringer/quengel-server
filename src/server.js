@@ -189,6 +189,16 @@ server.get('quengel/user/questions', requireAuth, (req, res) => {
     .catch(err => console.error(err));
 });
 
+// Get question by id
+server.get('quengel/question/:id', requireAuth, (req, res) => {
+  Question
+    .findOne({ _id: req.params.id })
+    .then((question) => {
+      res.send(question);
+    })
+    .catch(err => console.error(err));
+});
+
 // Create comment
 server.post('quengel/comment', requireAuth, (req, res) => {
   const request = JSON.parse(req.body);

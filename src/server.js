@@ -174,6 +174,21 @@ server.get('quengel/questions/:category', requireAuth, (req, res) => {
     .catch(err => console.error(err));
 });
 
+// Get user questions
+server.get('quengel/user/questions', requireAuth, (req, res) => {
+  User
+    .findOne({ email: req.user.email })
+    .then((user) => {
+      Question
+        .find({ userId: user.id })
+        .then((questions) => {
+          res.send(questions);
+        })
+        .catch(err => console.error(err));
+    })
+    .catch(err => console.error(err));
+});
+
 // Create comment
 server.post('quengel/comment', requireAuth, (req, res) => {
   const request = JSON.parse(req.body);

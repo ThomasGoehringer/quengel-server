@@ -8,6 +8,7 @@ const questionSchema = new Schema({
     ref: 'User'
   },
   category: String,
+  title: String,
   text: String,
   comments: [{
     userId: {

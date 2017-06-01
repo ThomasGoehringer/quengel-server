@@ -155,6 +155,7 @@ server.post('quengel/question', requireAuth, (req, res) => {
       new Question({
         userId: user.id,
         category: request.category,
+        title: request.title,
         text: request.text
       }).save();
 
